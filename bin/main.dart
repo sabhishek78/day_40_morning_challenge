@@ -46,12 +46,12 @@ List flattenList(List inputList, List outputList) {
     dynamic element = inputList[i];
 
     if (element is List) {
-      flattenList(element,outputList);
+      flattenList(element, outputList);
     } else if (element is Function) {
       dynamic functionResult = element();
 
       if (functionResult is List) {
-        flattenList(functionResult,outputList);
+        flattenList(functionResult, outputList);
       } else {
         outputList.add(functionResult);
       }
@@ -67,38 +67,47 @@ List flattenList(List inputList, List outputList) {
 main() {
   // print(possibleMoves([[1],[2],[3,4]]));
   // print(bestMove([[],[1],[2,3,4]]));
-  print(bestOneMoveToWin([[],[1],[2,3,4]]));
-  print(bestTwoMoveToWin([[2],[1],[3,4]]));
+  print(bestOneMoveToWin([
+    [],
+    [1],
+    [2, 3, 4]
+  ]));
+  print(bestTwoMoveToWin([
+    [2],
+    [1],
+    [3, 4]
+  ]));
   // print(bestMove([[1],[],[2,3,4]]));
 }
 
 List<List<int>> bestOneMoveToWin(List<List<int>> inputList) {
-
   List<List<List<int>>> listOfPossibleMoves = possibleMoves(inputList);
   print(listOfPossibleMoves);
   for (int i = 0; i < listOfPossibleMoves.length; i++) {
-       if(checkWin(listOfPossibleMoves[i])){
-         return listOfPossibleMoves[i];
-       }
+    if (checkWin(listOfPossibleMoves[i])) {
+      return listOfPossibleMoves[i];
+    }
   }
-
 }
-bool checkWin(List<List<int>> inputList){
-  if((inputList[0].isEmpty) && (inputList[1].isEmpty)){
+
+bool checkWin(List<List<int>> inputList) {
+  if ((inputList[0].isEmpty) && (inputList[1].isEmpty)) {
     return true;
-  }
-  else{
+  } else {
     return false;
   }
-
 }
 
 List<List<int>> bestTwoMoveToWin(List<List<int>> inputList) {
-
   List<List<List<int>>> listOfPossibleMoves = possibleMoves(inputList);
   for (int i = 0; i < listOfPossibleMoves.length; i++) {
-       return bestOneMoveToWin(listOfPossibleMoves[i]);
+    return bestOneMoveToWin(listOfPossibleMoves[i]);
   }
+}
 
-
+List<List<int>> bestNMoveToWin(List<List<int>> inputList) {
+  List<List<List<int>>> listOfPossibleMoves = possibleMoves(inputList);
+  for (int i = 0; i < listOfPossibleMoves.length; i++) {
+    return bestNMoveToWin(listOfPossibleMoves[i]);
+  }
 }
